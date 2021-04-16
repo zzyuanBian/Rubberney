@@ -1342,6 +1342,7 @@ return {
 	HUNGRY_SONG = "好饿好饿好饿，我真的好饿~",
 	GO_HOME_AND_EAT_SONG = "回家回家回家，回家吃饭饭~",
 	--被打了
+	HIT_YOU = "啊啊啊啊！！打死你！打死你！",
 	NO_HIT_ME = "别打我啊啊啊啊啊啊！！",
 	GOODNIGHT = "晚安！爱你！！呼呼睡！！",
 }

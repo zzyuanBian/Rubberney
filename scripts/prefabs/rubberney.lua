@@ -175,7 +175,6 @@ local function CustomCombatDamage(inst, target)
 		or 1
 end
 
--------------------------------------------------------------------------------
 local function OnSave(inst, data)
     if inst.questghost ~= nil then
         data.questghost = inst.questghost:GetSaveRecord()
@@ -201,10 +200,25 @@ local function OnLoad(inst, data)
     end
 end
 
+local function doattack(inst)
+	print("aaaaaa")
+	if inst.components.talker ~= nil then
+	print("bbbbbbbbbbb")
+		inst.components.talker:Say(GetString(inst, "HIT_YOU"))
+	end
+end
+
+local function onattack(inst)
+	if inst.components.talker ~= nil then
+		inst.components.talker:Say(GetString(inst, "NO_HIT_ME"))
+	end
+end
+-------------------------------------------------------------------------------
+--主函数,人物初始化
 local function master_postinit(inst)
     inst.starting_inventory = start_inv[TheNet:GetServerGameMode()] or start_inv.default
     
-	inst.customidleanim = "idle_wendy"
+	inst.customidleanim = "idle_wendy"--人物发呆动画
 	
 	inst.components.health:SetMaxHealth(TUNING.RUBBERNEY_HEALTH)
     inst.components.hunger:SetMax(TUNING.RUBBERNEY_HUNGER)
@@ -235,6 +249,8 @@ local function master_postinit(inst)
 		inst:ListenForEvent("death", ondeath)
 		inst:ListenForEvent("ms_becameghost", ondeath)
 		inst:ListenForEvent("ms_respawnedfromghost", onresurrection)
+		inst:ListenForEvent("doattack", doattack)
+		inst:ListenForEvent("attacked", onattack)
 
 		inst:ListenForEvent("onsisturnstatechanged", function(world, data) update_sisturn_state(inst, data.is_active) end, TheWorld)
 		update_sisturn_state(inst)
