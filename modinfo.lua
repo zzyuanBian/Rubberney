@@ -29,6 +29,7 @@ server_filter_tags = {
 "character",
 }
 
+--[[fix issue #8
 configuration_options =
 { 
     {
@@ -43,3 +44,4 @@ configuration_options =
 		default = "Cane",
 	},
 }
+--]]
