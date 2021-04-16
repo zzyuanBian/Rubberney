@@ -3,6 +3,7 @@ PrefabFiles = {
 	"rubberney_none",
 }
 
+--mod资源文件
 Assets = {
     Asset( "IMAGE", "images/saveslot_portraits/rubberney.tex" ),
     Asset( "ATLAS", "images/saveslot_portraits/rubberney.xml" ),
@@ -34,11 +35,9 @@ Assets = {
 	Asset( "IMAGE", "images/names_gold_rubberney.tex" ),
     Asset( "ATLAS", "images/names_gold_rubberney.xml" ),
 }
-
+--小地图头像
 AddMinimapAtlas("images/map_icons/rubberney.xml")
 
-local require = GLOBAL.require
-local STRINGS = GLOBAL.STRINGS
 -- 初始物资
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.RUBBERNEY = {
 	--GetModConfigData("init_item"),--fix issue #8
@@ -46,21 +45,18 @@ TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.RUBBERNEY = {
 }
 
 -- The character select screen lines
-STRINGS.CHARACTER_TITLES.rubberney = "小公主"
-STRINGS.CHARACTER_NAMES.rubberney = "倪佳艺小公主"
-STRINGS.CHARACTER_DESCRIPTIONS.rubberney = "*容易饥饿\n*这个角色很美\n*有一只叫臭蛋的狗狗"
-STRINGS.CHARACTER_QUOTES.rubberney = "\"冲！！！\""
-STRINGS.CHARACTER_SURVIVABILITY.rubberney = "很大"
+GLOBAL.STRINGS.CHARACTER_TITLES.rubberney = "小公主"
+GLOBAL.STRINGS.CHARACTER_NAMES.rubberney = "倪佳艺小公主"
+GLOBAL.STRINGS.CHARACTER_DESCRIPTIONS.rubberney = "*容易饥饿\n*这个角色很美\n*有一只叫臭蛋的狗狗"
+GLOBAL.STRINGS.CHARACTER_QUOTES.rubberney = "\"冲！！！\""
+GLOBAL.STRINGS.CHARACTER_SURVIVABILITY.rubberney = "很大"
 
 -- Custom speech strings
-STRINGS.CHARACTERS.RUBBERNEY = require "speech_rubberney"
+GLOBAL.STRINGS.CHARACTERS.RUBBERNEY = GLOBAL.require "speech_rubberney"
 
 -- The character's name as appears in-game 
-STRINGS.NAMES.rubberney = "倪佳艺小公主"
-STRINGS.SKIN_NAMES.rubberney_none = "倪佳艺小公主"
-
-STRINGS.NAMES.ABIGAIL_FLOWER = "倪佳艺的多肉"
-STRINGS.SKIN_NAMES.profileflair_abigail_flower = "倪佳艺的多肉"
+GLOBAL.STRINGS.NAMES.rubberney = "倪佳艺小公主"
+GLOBAL.STRINGS.SKIN_NAMES.rubberney_none = "倪佳艺小公主"
 
 -- Add mod character to mod character list. Also specify a gender. Possible genders are MALE, FEMALE, ROBOT, NEUTRAL, and PLURAL.
 AddModCharacter("rubberney", "FEMALE", skin_modes)
