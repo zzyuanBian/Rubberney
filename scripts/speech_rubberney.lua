@@ -1334,6 +1334,32 @@ return {
 		TALLBIRDEGG_CRACKED = "嗯……扁嘴巴.",
 	},
 	
+	ANNOUNCE_GHOST_QUEST = "你需要我为你找回丢失的东西吗？",
+    ANNOUNCE_GHOST_HINT = "你在为我指路吗？",
+    ANNOUNCE_GHOST_TOY_NEAR = {
+        "就在附近……我能感觉到……",
+        "它在召唤我……在这附近……",
+        "我们就快到了……",
+        "你的旅程就要结束了",
+        "我是在变暖吗？",
+    },
+	ANNOUNCE_SISTURN_FULL = "现在阿比盖尔可以更快回到我身边了。",
+    ANNOUNCE_ABIGAIL_DEATH = "不……不要再次丢下我！",
+    ANNOUNCE_ABIGAIL_RETRIEVE = "我很抱歉……你在外面不安全。",
+	ANNOUNCE_ABIGAIL_LOW_HEALTH = "小心啊，阿比盖尔！",
+    ANNOUNCE_ABIGAIL_SUMMON = 
+	{
+		LEVEL1 = "我知道你累了，但是我需要你……",
+		LEVEL2 = "我需要你的帮助，阿比盖尔……",
+		LEVEL3 = "你已经安息的够久了，亲爱的姐妹。",
+	},
+
+    ANNOUNCE_GHOSTLYBOND_LEVELUP = 
+	{
+		LEVEL2 = "你的脸色明亮起来了，阿比盖尔。",
+		LEVEL3 = "阿比盖尔一直是我黑暗中的指路明灯……",
+	},
+	
 	--自定义
 	JIUJIU = "啾~啾！！",
 	COME_IS_COME = "来都来了~",
@@ -1343,6 +1369,6 @@ return {
 	GO_HOME_AND_EAT_SONG = "回家回家回家，回家吃饭饭~",
 	--被打了
 	HIT_YOU = "啊啊啊啊！！打死你！打死你！",
-	NO_HIT_ME = "别打我啊啊啊啊啊啊！！",
 	GOODNIGHT = "晚安！爱你！！呼呼睡！！",
+	FOOD_IS_GOOD = "好吃！开心！！嘻嘻嘻嘻！！",
 }
