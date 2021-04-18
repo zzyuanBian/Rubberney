@@ -101,12 +101,10 @@ local function onPlayerActivated(inst)
 	end
 end
 
-local function refreshFlowerTooltip(inst)
 	if inst == ThePlayer then
 		inst:PushEvent("inventoryitem_updatespecifictooltip", {prefab = "abigail_flower"})
 	end
 end
-
 local function onDespawn(inst)
 	print("OnDespawn")
 	local abigail = inst.components.ghostlybond.ghost
@@ -125,6 +123,54 @@ local function onDeath(inst)
 end
 
 local function onResurrection(inst)
+
+local function onEat(inst, food)
+	print("oneat")
+	inst.components.talker:Say(GetString(inst, "FOOD_IS_GOOD"))
+end
+
+-- When the character is revived from human
+local function onBecameHuman(inst)
+	print("onbecamehuman")
+	inst.components.talker:Say("onbecamehuman")
+end
+
+local function onSave(inst, data)
+	print("OnSave")
+    if inst.questghost ~= nil then
+        data.questghost = inst.questghost:GetSaveRecord()
+    end
+end
+
+-- When loading or spawning the character
+local function onLoad(inst, data)
+	print("OnLoad")
+    if data ~= nil then
+		if data.abigail ~= nil then -- retrofitting
+			inst.components.inventory:GiveItem(SpawnPrefab("abigail_flower"))
+		end
+
+        if data.questghost ~= nil and inst.questghost == nil then
+            local questghost = SpawnSaveRecord(data.questghost)
+            if questghost ~= nil then
+                if inst.migrationpets ~= nil then
+                    table.insert(inst.migrationpets, questghost)
+                end
+                questghost.SoundEmitter:PlaySound("dontstarve/common/ghost_spawn")
+                questghost:LinkToPlayer(inst)
+            end
+        end
+    end
+end
+
+local function onAttackOther(inst)
+	print("onattackother")
+	if inst.components.talker ~= nil then
+		inst.components.talker:Say("我打死你！！")
+	end
+end
+
+local function onAttack(inst)
 	print("onresurrection")
 	inst.components.ghostlybond:SetBondLevel(1)
 	inst.components.ghostlybond:ResumeBonding()
@@ -198,53 +244,7 @@ local function customCombatDamage(inst, target)
 		or 1
 end
 
-local function onEat(inst, food)
-	print("oneat")
-	inst.components.talker:Say(GetString(inst, "FOOD_IS_GOOD"))
-end
-
--- When the character is revived from human
-local function onBecameHuman(inst)
-	print("onbecamehuman")
-	inst.components.talker:Say("onbecamehuman")
-end
-
-local function onSave(inst, data)
-	print("OnSave")
-    if inst.questghost ~= nil then
-        data.questghost = inst.questghost:GetSaveRecord()
-    end
-end
-
--- When loading or spawning the character
-local function onLoad(inst, data)
-	print("OnLoad")
-    if data ~= nil then
-		if data.abigail ~= nil then -- retrofitting
-			inst.components.inventory:GiveItem(SpawnPrefab("abigail_flower"))
-		end
-
-        if data.questghost ~= nil and inst.questghost == nil then
-            local questghost = SpawnSaveRecord(data.questghost)
-            if questghost ~= nil then
-                if inst.migrationpets ~= nil then
-                    table.insert(inst.migrationpets, questghost)
-                end
-                questghost.SoundEmitter:PlaySound("dontstarve/common/ghost_spawn")
-                questghost:LinkToPlayer(inst)
-            end
-        end
-    end
-end
-
-local function onAttackOther(inst)
-	print("onattackother")
-	if inst.components.talker ~= nil then
-		inst.components.talker:Say("我打死你！！")
-	end
-end
-
-local function onAttack(inst)
+local function refreshFlowerTooltip(inst)
 	print("onattack")
 	if inst.components.talker ~= nil then
 		inst.components.talker:Say("别打我啊啊啊啊啊啊！！")
@@ -257,7 +257,6 @@ local function onAttack(inst)
 		inst.components.locomotor.runspeed = TUNING.RUBBERNEY_RUN_SPEED
 	end)
 end
-
 
 -- This initializes for both the server and client. Tags can be added here.
 local function common_postinit(inst)
