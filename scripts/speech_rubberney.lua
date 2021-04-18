@@ -153,7 +153,7 @@ return {
         },
         PLAYER =
         {
-            GENERIC = "我是倪大漂亮~",
+            GENERIC = "你好~我是倪大漂亮~",
             ATTACKER = "That %s looks shifty...",
             MURDERER = "Murderer!",
             REVIVER = "%s, friend of ghosts.",
