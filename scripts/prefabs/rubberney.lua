@@ -101,10 +101,13 @@ local function onPlayerActivated(inst)
 	end
 end
 
+local function RefreshFlowerTooltip(inst)
+	print("RefreshFlowerTooltip")
 	if inst == ThePlayer then
 		inst:PushEvent("inventoryitem_updatespecifictooltip", {prefab = "abigail_flower"})
 	end
 end
+
 local function onDespawn(inst)
 	print("OnDespawn")
 	local abigail = inst.components.ghostlybond.ghost
@@ -123,6 +126,10 @@ local function onDeath(inst)
 end
 
 local function onResurrection(inst)
+	print("onResurrection")
+	inst.components.ghostlybond:SetBondLevel(1)
+	inst.components.ghostlybond:ResumeBonding()
+end
 
 local function onEat(inst, food)
 	print("oneat")
@@ -171,9 +178,17 @@ local function onAttackOther(inst)
 end
 
 local function onAttack(inst)
-	print("onresurrection")
-	inst.components.ghostlybond:SetBondLevel(1)
-	inst.components.ghostlybond:ResumeBonding()
+	print("onAttack")
+	if inst.components.talker ~= nil then
+		inst.components.talker:Say("别打我啊啊啊啊啊啊！！")
+	end
+	--被攻击
+	inst.components.locomotor.walkspeed = TUNING.RUBBERNEY_WALK_SPEED + 3
+	inst.components.locomotor.runspeed = TUNING.RUBBERNEY_RUN_SPEED + 5
+	inst:DoTaskInTime(0.6,function()
+		inst.components.locomotor.walkspeed = TUNING.RUBBERNEY_WALK_SPEED
+		inst.components.locomotor.runspeed = TUNING.RUBBERNEY_RUN_SPEED
+	end)
 end
 
 local function ghostlybond_onlevelchange(inst, ghost, level, prev_level, isloading)
@@ -184,6 +199,24 @@ local function ghostlybond_onlevelchange(inst, ghost, level, prev_level, isloadi
 		inst.components.talker:Say(GetString(inst, "ANNOUNCE_GHOSTLYBOND_LEVELUP", "LEVEL"..tostring(level)))
 		OnBondLevelDirty(inst)
 	end
+end
+
+local function OnBondLevelDirty(inst)
+	if inst.HUD ~= nil then
+		local bond_level = inst._bondlevel:value()
+		for i = 0, 3 do
+			if i ~= 1 then
+				inst:SetClientSideInventoryImageOverrideFlag("bondlevel"..i, i == bond_level)
+			end
+		end
+		if not inst:HasTag("playerghost") then
+			if bond_level > 1 then
+				if inst.HUD.wendyflowerover ~= nil then
+					inst.HUD.wendyflowerover:Play( bond_level )
+				end
+			end
+		end
+    end
 end
 
 --幽灵被召唤
@@ -211,6 +244,7 @@ local function ghostlybond_onrecall(inst, ghost, was_killed)
 end
 
 local function ghostlybond_onsummoncomplete(inst, ghost)
+	print("ghostlybond_onsummoncomplete")
 	inst.refreshflowertooltip:push()
 end
 
@@ -245,17 +279,18 @@ local function customCombatDamage(inst, target)
 end
 
 local function refreshFlowerTooltip(inst)
-	print("onattack")
-	if inst.components.talker ~= nil then
-		inst.components.talker:Say("别打我啊啊啊啊啊啊！！")
+	print("refreshFlowerTooltip")
+	if inst == ThePlayer then
+		inst:PushEvent("inventoryitem_updatespecifictooltip", {prefab = "abigail_flower"})
 	end
-	--被攻击
-	inst.components.locomotor.walkspeed = TUNING.RUBBERNEY_WALK_SPEED + 3
-	inst.components.locomotor.runspeed = TUNING.RUBBERNEY_RUN_SPEED + 5
-	inst:DoTaskInTime(0.6,function()
-		inst.components.locomotor.walkspeed = TUNING.RUBBERNEY_WALK_SPEED
-		inst.components.locomotor.runspeed = TUNING.RUBBERNEY_RUN_SPEED
-	end)
+end
+
+local function onWakeUp(inst)
+	print("onWakeUp")
+end
+
+local function gotoSleep(inst)
+	print("gotosleep")
 end
 
 -- This initializes for both the server and client. Tags can be added here.
@@ -317,6 +352,10 @@ local function master_postinit(inst)
 	inst:ListenForEvent("onsisturnstatechanged", function(world, data) 
 		updateSisturnState(inst, data.is_active) 
 	end, TheWorld)
+	
+	inst:ListenForEvent("onwakeup", onWakeUp)
+	inst:ListenForEvent("gotosleep", gotoSleep)
+	
 	updateSisturnState(inst)
 
     inst.OnDespawn = onDespawn
