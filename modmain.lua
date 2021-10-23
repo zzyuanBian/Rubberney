@@ -40,7 +40,6 @@ AddMinimapAtlas("images/map_icons/rubberney.xml")
 
 -- 初始物资
 TUNING.GAMEMODE_STARTING_ITEMS.DEFAULT.RUBBERNEY = {
-	--GetModConfigData("init_item"),--fix issue #8
 	"abigail_flower",
 }
 

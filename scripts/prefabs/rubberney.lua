@@ -48,12 +48,14 @@ local function onBondLevelDirty(inst)
 		for i = 0, 3 do
 			if i ~= 1 then
 				inst:SetClientSideInventoryImageOverrideFlag("bondlevel"..i, i == bond_level)
+				print("onBondLevelDirty A")
 			end
 		end
 		if not inst:HasTag("playerghost") then
 			if bond_level > 1 then
 				if inst.HUD.wendyflowerover ~= nil then
 					inst.HUD.wendyflowerover:Play( bond_level )
+					print("onBondLevelDirty B")
 				end
 			end
 		end
@@ -81,9 +83,9 @@ local function onPlayerActivated(inst)
 	inst:DoTaskInTime(5,function()
 		inst.components.talker:Say("什么！！")
 		inst:DoTaskInTime(0.8,function()
-		inst.components.talker:Say("是！")
-		inst:DoTaskInTime(0.2,function()
-			inst.components.talker:Say("快乐星球？？？")
+			inst.components.talker:Say("是！")
+			inst:DoTaskInTime(0.3,function()
+				inst.components.talker:Say("快乐星球？？？")
 			end)
 		end)
 	end)
@@ -98,13 +100,6 @@ local function onPlayerActivated(inst)
 			inst:ListenForEvent("_bondleveldirty", onBondLevelDirty)
 			onBondLevelDirty(inst)
 		end
-	end
-end
-
-local function RefreshFlowerTooltip(inst)
-	print("RefreshFlowerTooltip")
-	if inst == ThePlayer then
-		inst:PushEvent("inventoryitem_updatespecifictooltip", {prefab = "abigail_flower"})
 	end
 end
 
@@ -136,12 +131,6 @@ local function onEat(inst, food)
 	inst.components.talker:Say(GetString(inst, "FOOD_IS_GOOD"))
 end
 
--- When the character is revived from human
-local function onBecameHuman(inst)
-	print("onbecamehuman")
-	inst.components.talker:Say("onbecamehuman")
-end
-
 local function onSave(inst, data)
 	print("OnSave")
     if inst.questghost ~= nil then
@@ -152,8 +141,8 @@ end
 -- When loading or spawning the character
 local function onLoad(inst, data)
 	print("OnLoad")
-    if data ~= nil then
 		if data.abigail ~= nil then -- retrofitting
+			print("GiveItem")
 			inst.components.inventory:GiveItem(SpawnPrefab("abigail_flower"))
 		end
 
@@ -163,6 +152,7 @@ local function onLoad(inst, data)
                 if inst.migrationpets ~= nil then
                     table.insert(inst.migrationpets, questghost)
                 end
+				print("LinkToPlayer")
                 questghost.SoundEmitter:PlaySound("dontstarve/common/ghost_spawn")
                 questghost:LinkToPlayer(inst)
             end
@@ -180,7 +170,7 @@ end
 local function onAttack(inst)
 	print("onAttack")
 	if inst.components.talker ~= nil then
-		inst.components.talker:Say("别打我啊啊啊啊啊啊！！")
+		inst.components.talker:Say("妈呀！！！")
 	end
 	--被攻击
 	inst.components.locomotor.walkspeed = TUNING.RUBBERNEY_WALK_SPEED + 3
@@ -197,26 +187,8 @@ local function ghostlybond_onlevelchange(inst, ghost, level, prev_level, isloadi
 
 	if not isloading and inst.components.talker ~= nil and level > 1 then
 		inst.components.talker:Say(GetString(inst, "ANNOUNCE_GHOSTLYBOND_LEVELUP", "LEVEL"..tostring(level)))
-		OnBondLevelDirty(inst)
+		onBondLevelDirty(inst)
 	end
-end
-
-local function OnBondLevelDirty(inst)
-	if inst.HUD ~= nil then
-		local bond_level = inst._bondlevel:value()
-		for i = 0, 3 do
-			if i ~= 1 then
-				inst:SetClientSideInventoryImageOverrideFlag("bondlevel"..i, i == bond_level)
-			end
-		end
-		if not inst:HasTag("playerghost") then
-			if bond_level > 1 then
-				if inst.HUD.wendyflowerover ~= nil then
-					inst.HUD.wendyflowerover:Play( bond_level )
-				end
-			end
-		end
-    end
 end
 
 --幽灵被召唤
@@ -338,7 +310,8 @@ local function master_postinit(inst)
 	inst.components.ghostlybond.onbondlevelchangefn = ghostlybond_onlevelchange
 	inst.components.ghostlybond.onsummonfn = ghostlybond_onsummon
 	inst.components.ghostlybond.onrecallfn = ghostlybond_onrecall
-	inst.components.ghostlybond.changebehaviourfn = ghostlybond_changebehaviour	
+	inst.components.ghostlybond.onsummoncompletefn = ghostlybond_onsummoncomplete
+	inst.components.ghostlybond.changebehaviourfn = ghostlybond_changebehaviour
 	inst.components.ghostlybond:Init("abigail", TUNING.ABIGAIL_BOND_LEVELUP_TIME)
 	inst.components.combat.customdamagemultfn = customCombatDamage
 	inst.components.locomotor.walkspeed = TUNING.RUBBERNEY_WALK_SPEED

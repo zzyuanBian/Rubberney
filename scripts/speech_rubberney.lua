@@ -83,7 +83,7 @@ return {
 	ANNOUNCE_HUNT_LOST_TRAIL = "脚印到这里.",
 	ANNOUNCE_HUNT_LOST_TRAIL_SPRING = "足迹有点模糊.",
 	ANNOUNCE_INV_FULL = "我带不了东西!",
-	ANNOUNCE_KNOCKEDOUT = "啊呀,有东西再敲倪佳艺的脑袋!",
+	ANNOUNCE_KNOCKEDOUT = "啊呀,有东西在敲倪佳艺的脑袋!",
 	ANNOUNCE_LOWRESEARCH = "毫无可取之处.",
 	ANNOUNCE_MOSQUITOS = "啊哈! 错了!",
 	ANNOUNCE_NODANGERSLEEP = "四面楚歌!",
@@ -432,7 +432,7 @@ return {
 		MAXWELLPHONOGRAPH = "这些音乐是从那里来的.",
 		BOOMERANG = "很有空气动力学特性啊!",
 		PIGGUARD = "他看起来不像其他人一样友善.",
-		ABIGAIL = "啊~她有一个可爱的小蝴蝶结.",
+		ABIGAIL = "啊~这是我的妹妹倪减艺",
 		ADVENTURE_PORTAL = "我不想再一次上当了.",
 		AMULET = "当我穿着它时,我觉得很安全.",
 		ANIMAL_TRACK = "食物留下的踪迹,我是指……动物.",
@@ -462,7 +462,7 @@ return {
 		BEDROLL_STRAW = "潮湿的气息.",
 		BEE =
 		{
-			GENERIC = "遇到蜜蜂或者不遇到蜜蜂.",
+			GENERIC = "倪佳艺可不怕小蜜蜂",
 			HELD = "小心!",
 		},
 		BEEBOX =
@@ -606,7 +606,7 @@ return {
 		CORN_SEEDS = "它是一颗种子.",
 		CROW =
 		{
-			GENERIC = "恐怖!",
+			GENERIC = "它和我家臭蛋一样黑！!",
 			HELD = "他在那里并不很快乐.",
 		},
 		CUTGRASS = "割草,为工艺品做准备.",
